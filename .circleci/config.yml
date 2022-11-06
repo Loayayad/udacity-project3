@@ -113,8 +113,7 @@ jobs:
             cd frontend
             npm install
             npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=high --force
             npm audit --audit-level=critical
   scan-backend:
     docker:
@@ -129,8 +128,7 @@ jobs:
             cd frontend
             npm install
             npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=high --force
             npm audit --audit-level=critical
       # - slack/notify:
       #     event: fail

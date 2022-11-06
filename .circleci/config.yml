@@ -448,7 +448,6 @@ workflows:
       ## BUILD AND DEPLOY
       - install-backend-dependencies
       - install-frontend-dependencies
-
       - build-frontend:
           requires: 
             - install-backend-dependencies

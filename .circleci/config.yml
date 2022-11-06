@@ -42,31 +42,6 @@ commands:
             npm run migrations:revert
 
 jobs:
-
-  install-backend-dependencies:
-    executor: node
-    steps:
-      - checkout
-      - run:
-          name: npm install
-          working_directory: ./backend
-          command: ls -la && npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - backend/node_modules
-  install-frontend-dependencies:
-    executor: node
-    steps:
-      - checkout
-      - run:
-          name: npm install
-          working_directory: ./frontend
-          command: ls -la && npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - frontend/node_modules
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -135,16 +110,12 @@ jobs:
       - run:
           name: Analyse frontend
           command: |
-              cd frontend
-              npm install
-              npm audit --audit-level=critical
-          
-          # command: |
-          #   cd frontend
-          #   npm install
-          #   npm audit fix --audit-level=critical --force
-          #   npm audit fix --audit-level=critical --force
-          #   npm audit --audit-level=critical
+            cd frontend
+            npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -155,17 +126,12 @@ jobs:
       - run:
           name: Analyse backend
           command: |
-                 cd frontend
-                 npm install
-                 npm audit --audit-level=critical 
-          
-          # command: |
-          #   cd frontend
-          #   npm install
-          #   npm audit fix --audit-level=critical --force
-          #   npm audit fix --audit-level=critical --force
-          #   npm audit --audit-level=critical
-      
+            cd frontend
+            npm install
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit fix --audit-level=critical --force
+            npm audit --audit-level=critical
       # - slack/notify:
       #     event: fail
       #     template: basic_fail_1
@@ -445,15 +411,8 @@ jobs:
 workflows:
   default:
     jobs:
-      ## BUILD AND DEPLOY
-      - install-backend-dependencies
-      - install-frontend-dependencies
-      - build-frontend:
-          requires: 
-            - install-backend-dependencies
-      - build-backend:
-          requires:
-            - install-frontend-dependencies
+      - build-frontend
+      - build-backend
       - test-frontend:
           requires: [build-frontend]
       - test-backend:

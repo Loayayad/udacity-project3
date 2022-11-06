@@ -1,7 +1,7 @@
 version: 2.1
 
-orbs:
-  slack: circleci/slack@4.1
+# orbs:
+#   slack: circleci/slack@4.1
 
 parameters:
   workflow_id:
@@ -109,12 +109,14 @@ jobs:
           keys: [frontend-build]
       - run:
           name: Analyse frontend
-          command: |
-            cd frontend
-            npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
+          command: npm audit --audit-level=critical
+          
+          # command: |
+          #   cd frontend
+          #   npm install
+          #   npm audit fix --audit-level=critical --force
+          #   npm audit fix --audit-level=critical --force
+          #   npm audit --audit-level=critical
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -124,15 +126,18 @@ jobs:
           keys: [backend-build]
       - run:
           name: Analyse backend
-          command: |
-            cd frontend
-            npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
-      - slack/notify:
-          event: fail
-          template: basic_fail_1
+          command: npm audit --audit-level=critical 
+          
+          # command: |
+          #   cd frontend
+          #   npm install
+          #   npm audit fix --audit-level=critical --force
+          #   npm audit fix --audit-level=critical --force
+          #   npm audit --audit-level=critical
+      
+      # - slack/notify:
+      #     event: fail
+      #     template: basic_fail_1
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
